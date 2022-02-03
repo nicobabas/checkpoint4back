@@ -24,6 +24,7 @@
     "multer": "^1.4.4",
     "mysql2": "^2.3.3",
     "nodemon": "^2.0.15",
+    "path": "^0.12.7",
     "slugify": "^1.6.4"
   },
   "devDependencies": {

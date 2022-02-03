@@ -8,7 +8,7 @@ const router = express.Router();
 
 const storage = multer.diskStorage({
   destination: (req, file, callBack) => {
-    callBack(null, "public/images");
+    callBack(null, "./public/images/");
   },
   filename: (req, file, callBack) => {
     callBack(
@@ -23,7 +23,7 @@ const upload = multer({
 });
 
 const schemaPage = Joi.object({
-    image: Joi.string().max(255).required(),
+    image: Joi.string().max(255),
     title: Joi.string().max(255),
     text: Joi.string().max(255),
 });
@@ -60,8 +60,9 @@ router.delete('/:id', async (req, res) => {
 })
 
 router.post('/', upload.single("image"), async (req, res) => {
-    const { title, text, book_id } = req.body;
-    const image = `http://localhost:8000/images/${req.file[0].filename}`;
+   const { title, text, book_id } = req.body;
+    console.log('req',req.files)
+    const image = `http://localhost:8000/images/${req.file.filename}`;
     try {
         const {error, value} = await schemaPage.validate({ image, title, text, book_id })
         const lastInsertId = await Page.createNew(value);

@@ -11,16 +11,16 @@ const getAll = () => {
 
 const getOneById = (id) => {
     return new Promise((resolve, reject) => {
-        dbConnect.query(`SELECT * FROM page WHERE id = ?`, id, (err, result) => {
+        dbConnect.query(`SELECT * FROM page WHERE book_id = ?`, id, (err, results) => {
             if (err) reject(err);
-            else resolve(result[0]);
+            else resolve(results);
         })
     })
 }
 
 const deleteById = (id) => {
     return new Promise((resolve, reject) => {
-        dbConnect.query('DELETE FROM page WHERE id = ?', id, (err, result) => {
+        dbConnect.query('DELETE FROM page WHERE page_id = ?', id, (err, result) => {
             if (err) reject(err);
             else resolve(result.affectedRows);
         })
@@ -39,7 +39,7 @@ const deleteByIdFromBook = (id) => {
 const createNew = (page) => {
     const { image, title, text, book_id } = page;
     return new Promise((resolve, reject) => {
-        dbConnect.query('INSERT INTO weartype (image, title, text, book_id) VALUES (?, ?, ?, ?)',
+        dbConnect.query('INSERT INTO page (image, title, text, book_id) VALUES (?, ?, ?, ?)',
             [image, title, text, book_id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result.insertId);
@@ -47,9 +47,9 @@ const createNew = (page) => {
     })
 }
 
-const updatePage = (id, weartype) => {
+const updatePage = (id, page) => {
     return new Promise((resolve, reject) => {
-        dbConnect.query('UPDATE weartype SET ? WHERE id = ?', [weartype, id], (err, result) => {
+        dbConnect.query('UPDATE page SET ? WHERE id = ?', [page, id], (err, result) => {
             if (err) reject(err);
             else resolve(result);
         })
