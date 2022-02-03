@@ -36,11 +36,11 @@ const deleteByIdFromBook = (id) => {
   })
 }
 
-const createNew = (page) => {
-    const { image, title, text, book_id } = page;
+const createNew = (page, id) => {
+    const { image, title, text } = page;
     return new Promise((resolve, reject) => {
         dbConnect.query('INSERT INTO page (image, title, text, book_id) VALUES (?, ?, ?, ?)',
-            [image, title, text, book_id], (err, result) => {
+            [image, title, text, id], (err, result) => {
                 if (err) reject(err);
                 else resolve(result.insertId);
             })
