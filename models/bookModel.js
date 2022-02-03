@@ -31,8 +31,8 @@ const deleteById = (id) => {
     })
 }
 
-const createNew = (weartype) => {
-    const { name, image } = weartype;
+const createNew = (book) => {
+    const { name, image } = book;
     return new Promise((resolve, reject) => {
         dbConnect.query('INSERT INTO book (name, image) VALUES (?, ?)',
             [name, image], (err, result) => {

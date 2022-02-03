@@ -1,9 +1,27 @@
 import express from 'express';
 import Book from '../models/bookModel.js';
 import Joi from 'joi';
+import multer from "multer";
+import path from "path";
 
 const router = express.Router();
 
+const storage = multer.diskStorage({
+    destination: (req, file, callBack) => {
+      callBack(null, "./public/images/");
+    },
+    filename: (req, file, callBack) => {
+      callBack(
+        null,
+        file.fieldname + "-" + Date.now() + path.extname(file.originalname)
+      );
+    },
+  });
+  
+  const upload = multer({
+    storage: storage,
+  });
+  
 const schemaBook = Joi.object({
     name: Joi.string().max(255),
     image: Joi.string().max(255).required(),
@@ -37,8 +55,10 @@ router.delete('/:id', async (req, res) => {
     }
 })
 
-router.post('/', async (req, res) => {
-    const { name, image } = req.body;
+router.post('/', upload.single("image"), async (req, res) => {
+    const { name } = req.body;
+    const image = `http://localhost:8000/images/${req.file.filename}`;
+    
     try {
         const {error, value} = await schemaBook.validate({ name, image })
         const lastInsertId = await Book.createNew(value);

@@ -62,8 +62,7 @@ router.delete('/:id', async (req, res) => {
 router.post('/:id', upload.single("image"), async (req, res) => {
    const { title, text } = req.body;
    const id = req.params.id;
-
-    console.log('req',req.files)
+   
     const image = `http://localhost:8000/images/${req.file.filename}`;
     try {
         const {error, value} = await schemaPage.validate({ image, title, text })
