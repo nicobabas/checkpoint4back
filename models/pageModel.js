@@ -18,18 +18,18 @@ const getOneById = (id) => {
     })
 }
 
-const deleteById = (id) => {
+const deleteById = (page_id) => {
     return new Promise((resolve, reject) => {
-        dbConnect.query('DELETE FROM page WHERE page_id = ?', id, (err, result) => {
+        dbConnect.query('DELETE FROM page WHERE page_id = ?', page_id, (err, result) => {
             if (err) reject(err);
             else resolve(result.affectedRows);
         })
     })
 }
 
-const deleteByIdFromBook = (id) => {
+const deleteByIdFromPage = (id) => {
   return new Promise((resolve, reject) => {
-      dbConnect.query('DELETE FROM page WHERE book_id = ?', id, (err, result) => {
+      dbConnect.query('DELETE FROM page WHERE id = ?', id, (err, result) => {
           if (err) reject(err);
           else resolve(result.affectedRows);
       })
@@ -56,4 +56,4 @@ const updatePage = (id, page) => {
     })
 }
 
-export default { getAll, getOneById, deleteById, deleteByIdFromBook, createNew, updatePage };
+export default { getAll, getOneById, deleteById, deleteByIdFromPage, createNew, updatePage };
